@@ -1,0 +1,22 @@
+﻿@model DOAM.Application.ViewModels.Search.SearchViewModel
+
+<!-- Remember Query typed on search bar -->
+@if (!string.IsNullOrEmpty(Model.Form.Query))
+{
+    <input name="@Html.NameFor(m=>m.Form.Query).ToString().ToLowerInvariant()" type="hidden" value="@Model.Form.Query" />
+}
+
+<!-- Remember Type if selected from filters -->
+@if (!string.IsNullOrEmpty(Model.Form.AssetType))
+{
+    <input name="@Html.NameFor(m=>m.Form.AssetType).ToString().ToLowerInvariant()" type="hidden" value="@Model.Form.AssetType" />
+}
+
+<!-- Remember Tags if selected from filters -->
+@if (Model.Form.Tags.Length > 0)
+{
+    for (var i = 0; i < Model.Form.Tags.Length; i++)
+    {
+        <input name="@Html.NameFor(m=>m.Form.Tags).ToString().ToLowerInvariant()" type="hidden" value="@Model.Form.Tags[i]" />
+    }
+}

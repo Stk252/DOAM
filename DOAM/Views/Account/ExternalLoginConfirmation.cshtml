@@ -1,0 +1,51 @@
+﻿@model DOAM.Application.ViewModels.Account.ExternalLoginConfirmationViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 mb-5" data-aos="fade">
+
+
+
+
+                @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal p-5 bg-white", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <h2>@ViewBag.Title.</h2>
+                    <h3>Associate your @ViewBag.LoginProvider account.</h3>
+                    <br />
+                    <h4>Association Form</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <p class="text-info">
+                        You've successfully authenticated with <strong>@ViewBag.LoginProvider</strong>.
+                        Please enter a user name for this site below and click the Register button to finish
+                        logging in.
+                    </p>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.Email, new { @class = "text-black control-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <input type="submit" value="Register" class="btn btn-primary py-2 px-4 text-white">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

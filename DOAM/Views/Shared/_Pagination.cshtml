@@ -1,0 +1,16 @@
+﻿@model DOAM.Application.ViewModels.Search.SearchViewModel
+
+@if (Model.Total > 0)
+{
+    <div class="pagination">
+        <a href="@(Model.Form.Page == 1 ? "javascript: void(0)" : Model.UrlFor(f => { f.Page = Math.Max(1, f.Page - 1); }))" class="prev @(Model.Form.Page == 1 ? "disabled" : "")"><i class="fas fa-caret-left"></i></a>
+        <ol>
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(Model.Form.Page == i ? "active" : "" )"><a class="page-link" href="@Model.UrlFor(f => { f.Page = i; })">@i</a></li>
+            }
+        </ol>
+        <a href="@(Model.Form.Page == Model.TotalPages ? "javascript: void(0)" : Model.UrlFor(f => { f.Page = Math.Min(Model.TotalPages, f.Page + 1); }))" class="next @(Model.Form.Page >= Model.TotalPages ? "disabled" : "")"><i class="fas fa-caret-right"></i></a>
+    </div>
+}
+

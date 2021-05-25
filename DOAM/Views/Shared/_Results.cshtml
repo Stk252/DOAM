@@ -1,0 +1,99 @@
+﻿@model DOAM.Application.ViewModels.Search.SearchViewModel
+
+<div class=" mt-4 col-sm-4 col-md-3">
+    @Html.Partial("_Aggregations", Model)
+</div>
+
+<div class="d-flex flex-column row col-sm-8 col-md-9">
+    <div class="mt-4">
+        <h4>Search Results</h4>
+    </div>
+    <!--     Pagination     -->
+    @using (Html.BeginForm("Index", "Assets", FormMethod.Get, new { id = "search-criteria" }))
+    {
+        @Html.Partial("_RememberQuery", Model)
+
+        <div class="d-flex flex-wrap justify-content-between">
+            <div class="page-size text-muted d-flex mb-4 mt-4">
+                <div class="mr-2 align-self-center">Displaying</div>
+                @{
+                    var pageSize = Model.Form.PageSize;
+                }
+                <select name="@Html.NameFor(m => m.Form.PageSize).ToString().ToLowerInvariant()" class="form-control" style="max-width: 70px;">
+                    <option @(pageSize == 10 ? "selected" : "")>10</option>
+                    <option @(pageSize == 25 ? "selected" : "")>25</option>
+                    <option @(pageSize == 50 ? "selected" : "")>50</option>
+                    <option @(pageSize == 100 ? "selected" : "")>100</option>
+                </select>
+            </div>
+
+            <div class="d-flex  mb-4 mt-4">
+                @Html.Partial("_Pagination", Model)
+            </div>
+
+            <div class="page-sort text-muted d-flex  mb-4 mt-4">
+                <div class="mr-2 align-self-center">ordered by</div>
+
+                @{
+                    var sort = Model.Form.Sort;
+                }
+                <div>
+                    <select name="@Html.NameFor(m => m.Form.Sort).ToString().ToLowerInvariant()" class="form-control">
+                        <option value="latest" @(sort == DOAM.Domain.Models.SearchSort.Latest ? "selected" : "")>Latest</option>
+                        <option value="type" @(sort == DOAM.Domain.Models.SearchSort.Type ? "selected" : "")>Type</option>
+                        <option value="name" @(sort == DOAM.Domain.Models.SearchSort.Name ? "selected" : "")>Name</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        
+    }
+    <div class="row mt-4">
+        @foreach (var hit in Model.Hits)
+        {
+            var asset = hit.Source;
+
+            <article class="col-sm-12 d-flex">
+                <div class="listing asset-index-card">
+                    <div class="d-md-flex">
+                        <div>
+                            <a href="@Url.Action("Details", "Assets", new { assetId = asset.AssetId })" class="d-flex justify-content-center">
+                                <img class="img-fluid card-image" src="@(asset.ImageUrl ?? "")" onerror="this.onerror = null;this.src='@asset.Type.AssetTypeImage'" />
+                            </a>
+                        </div>
+                    
+                        <div class="lh-content">
+                            <h2><a href="@Url.Action("Details", "Assets", new { assetId = asset.AssetId })">@asset.Name</a></h2>
+                            <div class="d-flex justify-content-between">
+                                <div class="text-muted">@asset.DateAdded.ToString("dd MMMM yyyy")</div>
+                                <div class="d-flex flex-column align-items-end">
+                                    <div class="text-muted">@asset.Type.AssetType</div>
+                                    <div class="text-muted">@asset.Type.Name</div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="asset-description">
+                                @asset.Description
+                            </div>
+                            <div>@asset.Type.AssetType</div>
+                        </div>
+                    </div>
+                    <hr class="m-0" />
+                    <div class="p-3">
+                        @foreach (var tag in asset.Tags)
+                        {
+                            <span class="badge badge-pill badge-primary">@tag.Label</span>
+                        }
+                    </div>
+                </div>
+            </article>
+        }
+    </div>
+    <div class="bottom-pagination d-flex justify-content-center pt-4">
+        @Html.Partial("_Pagination", Model)
+    </div>
+</div>
+
+
+

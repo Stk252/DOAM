@@ -1,0 +1,30 @@
+﻿@model DOAM.Application.ViewModels.Assets.AssetMetadatasViewModel
+
+
+
+@Html.Label("Metadatas")
+
+<table class="table table-bordered table-hover">
+    @foreach (var name in Model.MetadataGroupNames)
+    {
+        <tr>
+            <th colspan="2">@name</th>
+        </tr>
+        for (int i = 0; i < Model.MetadatasWithValue.Count; i++)
+        {
+            if (Model.MetadatasWithValue[i].MetadataGroupName == name)
+            {
+                <tr>
+                    <td>@Model.MetadatasWithValue[i].MetadataName</td>
+                    <td>@Html.TextBoxFor(vm => vm.MetadatasWithValue[i].Value, new { placeholder = "Value", @class = "form-control" })</td>
+                    @Html.HiddenFor(vm => vm.MetadatasWithValue[i].Id)
+                    @Html.HiddenFor(vm => vm.MetadatasWithValue[i].AssetId)
+                    @Html.HiddenFor(vm => vm.MetadatasWithValue[i].MetadataId)
+                </tr>
+            }
+        }
+    }
+
+
+</table>
+

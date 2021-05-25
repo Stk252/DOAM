@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3928d3cf7ca9430c969c38466e00dcee" Name="Diagram1">
+        <EntityTypeShape EntityType="DOAMModel.AspNetRole" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AspNetUser" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.Asset" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AssetIssue" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AssetMetadata" Width="1.5" PointX="12.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AssetSuggestion" Width="1.5" PointX="5.25" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AssetTag" Width="1.5" PointX="8.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AssetType" Width="1.5" PointX="1.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.AssetTypeSupportedMetadata" Width="1.5" PointX="12.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.Metadata" Width="1.5" PointX="10" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.MetadataGroup" Width="1.5" PointX="7.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.MimeType" Width="1.5" PointX="3.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DOAMModel.Tag" Width="1.5" PointX="6" PointY="10.875" IsExpanded="true" />
+        <AssociationConnector Association="DOAMModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetIssue_RaisingUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetSuggestion_SuggestingUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_Asset_MimeType" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetIssue_Asset" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetMetadata_Asset" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetTag_Asset" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetMetadata_Metadata" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetTag_Tag" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetTypeSupportedMetadata_AssetType" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_MimeType_AssetType" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_AssetTypeSupportedMetadata_Metadata" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.FK_Metadata_MetadataGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="DOAMModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

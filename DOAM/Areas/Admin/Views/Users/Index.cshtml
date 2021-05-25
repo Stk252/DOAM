@@ -1,0 +1,116 @@
+﻿@using DOAM.Domain.Constants
+@model DOAM.Application.ViewModels.Users.IndexViewModel
+
+@{
+    ViewBag.Title = "Registered Users";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<!-- Main content -->
+<section class="content pb-1">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title align-self-center">Registered Users</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="users" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Change Role</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        string modalId = "userViewModal" + user.Id;
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @foreach(var role in user.AspNetRoles)
+                            {
+                                <div>@role.Name</div>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("SaveNewRole", "Users", new { id = user.Id }))
+                            {
+                                @Html.AntiForgeryToken()
+                                if (user.UserName != User.Identity.Name)
+                                {
+                                    foreach (var role in user.AspNetRoles)
+                                    {
+                                        switch (role.Name)
+                                        {
+                                            case UserRoles.ROLE_ADMIN:
+                                                <input type="submit" name="NewRole" value="@UserRoles.ROLE_TEAM" class="btn btn-success" />
+                                                <input type="submit" name="NewRole" value="@UserRoles.ROLE_MEMBER" class="btn btn-primary" />
+                                                break;
+                                            case UserRoles.ROLE_TEAM:
+                                                <input type="submit" name="NewRole" value="@UserRoles.ROLE_ADMIN" class="btn btn-danger" />
+                                                <input type="submit" name="NewRole" value="@UserRoles.ROLE_MEMBER" class="btn btn-primary" />
+                                                break;
+                                            default:
+                                                <input type="submit" name="NewRole" value="@UserRoles.ROLE_ADMIN" class="btn btn-danger" />
+                                                <input type="submit" name="NewRole" value="@UserRoles.ROLE_TEAM" class="btn btn-success" />
+                                                break;
+                                        }
+                                    }
+                                    <input type="hidden" value="@user.Id" name="UserId" />
+                                }
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "Users", new { id = user.Id }, FormMethod.Post, new { @class = "m-1" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                if (user.UserName != User.Identity.Name)
+                                {
+                                    <button type="button" data-username="@user.UserName" class="btn btn-danger delete-user w-100"><span class="nav-icon fas fa-trash"></span></button>
+                                }
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->
+
+
+
+@section scripts {
+    <script>
+
+        $(document).ready(function () {
+            $("#users").dataTable();
+
+            $("#users tbody").on("click", ".delete-user", function () {
+                                        let button = $(this);
+
+                                        bootbox.confirm(
+                    `Are you sure you want to delete this user:
+                    <div class="text-primary text-bold p-3 d-flex justify-content-center">
+                        ${$(this).attr("data-username")}
+                    </div>
+                    `,
+                    function (result) {
+                        if (result) {
+                            button.parent('form').submit();
+                        }
+                    }
+                );
+            });
+        });
+    </script>
+}

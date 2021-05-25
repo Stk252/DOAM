@@ -1,0 +1,114 @@
+﻿@model DOAM.Application.ViewModels.MimeTypes.FormViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<section class="content pb-1">
+    <div class="card">
+        @using (Html.BeginForm("Save", "MimeTypes"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title align-self-center">Edit</h3>
+                    <button type="submit" class="btn btn-primary"><span class="nav-icon fas fa-save mr-2"></span>Save</button>
+                </div>
+            </div>
+
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                @Html.ValidationSummary(true, "Some fields are invalid.")
+                <div class="form-group d-flex flex-column">
+                    @Html.LabelFor(vm => vm.MimeType.AssetTypeId, "Asset Type")
+                    @Html.DropDownListFor(vm => vm.MimeType.AssetTypeId, Model.AssetTypes, new { @class = "form-control asset-types" })
+                    @Html.ValidationMessageFor(vm => vm.MimeType.AssetTypeId)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.MimeType.Name)
+                    @Html.TextBoxFor(vm => vm.MimeType.Name, new { placeholder = "Name", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.MimeType.Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.MimeType.Template)
+                    @Html.TextBoxFor(vm => vm.MimeType.Template, new { placeholder = "Template", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.MimeType.Template)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.MimeType.FileExtension, "File Extension")
+                    @Html.TextBoxFor(vm => vm.MimeType.FileExtension, new { placeholder = "Template", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.MimeType.FileExtension)
+                </div>
+                @Html.HiddenFor(vm => vm.MimeType.MimeTypeId)
+            </div>
+            <!-- /.card-body -->
+        }
+    </div>
+    <!-- /.card -->
+</section>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(document).ready(function () {
+        $.validator.addMethod(
+            "pattern",
+            function (value, element, regexp) {
+                let re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            }
+        );
+
+        $("#MimeType_Name").rules("add", {
+            required: true,
+            maxlength: 100,
+            messages: {
+                required: "Name is required.",
+                maxlength: "Name is too long, maximum 100 characters."
+            }
+        });
+        $("#MimeType_Template").rules("add", {
+            required: true,
+            maxlength: 200,
+            pattern: /^(application|chemical|audio|font|example|image|message|model|multipart|text|video|x-(?:[0-9A-Za-z!#$%&'*+.^_`|~-]+))\/([0-9A-z!#$%&'*+.,^_`|~-]+)([0-9A-z!#$%&'*+.,^_`|~-]+)$/,
+            messages: {
+                required: "Template is required.",
+                maxlength: "Template is too long, maximum 200 characters.",
+                pattern: "Template doesn't have a valid format (.../... expected)."
+            }
+        });
+        $("#MimeType_FileExtension").rules("add", {
+            maxlength: 50,
+            pattern: /^\.[0-9A-Za-z].+$/,
+            messages: {
+                maxlength: "File Extension is too long, maximum 50 characters.",
+                pattern: "File Extension doesn't have a valid format (.xxx expected)."
+            }
+        });
+        $("#MimeType_AssetTypeId").rules("add", {
+            required: true,
+            messages: {
+                required: "Asset Type is required.",
+            }
+        });
+
+        $(".asset-types").select2({
+            placeholder: "Select Asset Type",
+            allowClear: true
+        });
+
+
+        $(".asset-types").on("change", function () {
+            let mimeStart = $(this).select2('data')[0].text.toLowerCase();
+        });
+    });
+</script>
+}

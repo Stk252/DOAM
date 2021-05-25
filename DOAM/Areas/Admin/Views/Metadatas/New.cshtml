@@ -1,0 +1,86 @@
+﻿@model DOAM.Application.ViewModels.Metadatas.FormViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<section class="content pb-1">
+    <div class="card">
+        @using (Html.BeginForm("Save", "Metadatas"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title align-self-center">New</h3>
+                    <button type="submit" class="btn btn-primary"><span class="nav-icon fas fa-save mr-2"></span>Save</button>
+                </div>
+            </div>
+
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                @Html.ValidationSummary(true, "Some fields are invalid.")
+                <div class="form-group d-flex flex-column">
+                    @Html.LabelFor(vm => vm.Metadata.MetadataGroupId, "Metadata Group")
+                    @Html.DropDownListFor(vm => vm.Metadata.MetadataGroupId, Model.MetadataGroups, new { @class = "form-control metadata-groups" })
+                    @Html.ValidationMessageFor(vm => vm.Metadata.MetadataGroupId)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Metadata.Name)
+                    @Html.TextBoxFor(vm => vm.Metadata.Name, new { placeholder = "Name", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.Metadata.Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Metadata.Description)
+                    @Html.TextAreaFor(vm => vm.Metadata.Description, new { placeholder = "Description", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.Metadata.Description)
+                </div>
+                @Html.HiddenFor(vm => vm.Metadata.MetadataId)
+            </div>
+            <!-- /.card-body -->
+        }
+    </div>
+    <!-- /.card -->
+</section>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $("#Metadata_Name").rules("add", {
+                required: true,
+                maxlength: 100,
+                messages: {
+                    required: "Name is required.",
+                    maxlength: "Name is too long, maximum 100 characters."
+                }
+            });
+            $("#Metadata_Description").rules("add", {
+                required: true,
+                maxlength: 500,
+                messages: {
+                    required: "Description is required.",
+                    maxlength: "Description is too long, maximum 500 characters."
+                }
+            });
+            $("#Metadata_MetadataGroupId").rules("add", {
+                required: true,
+                messages: {
+                    required: "Metadata Group is required.",
+                }
+            });
+
+            $(".metadata-groups").select2({
+                placeholder: "Select Metadata Group",
+                allowClear: true
+            });
+        });
+    </script>
+}

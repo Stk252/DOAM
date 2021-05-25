@@ -1,0 +1,175 @@
+﻿@model DOAM.Application.ViewModels.AssetTypes.FormViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<section class="content pb-1">
+    <div class="card">
+        @using (Html.BeginForm("Save", "AssetTypes"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title align-self-center">Edit</h3>
+                    <button id="asset-type-submit" type="submit" class="btn btn-primary"><span class="nav-icon fas fa-save mr-2"></span>Save</button>
+                </div>
+            </div>
+
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                @Html.ValidationSummary(true, "Some fields are invalid.")
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.AssetType.TypeLabel)
+                    @Html.TextBoxFor(vm => vm.AssetType.TypeLabel, new { placeholder = "Label", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.AssetType.TypeLabel)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.AssetType.TypeDescription)
+                    @Html.TextAreaFor(vm => vm.AssetType.TypeDescription, new { placeholder = "Description", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.AssetType.TypeDescription)
+                </div>
+                <div class="form-group d-flex flex-column">
+                    @Html.LabelFor(vm => vm.AssetTypeSupportedMetadatas, "Supported Metadatas")
+                    @Html.ListBoxFor(vm => vm.AssetTypeSupportedMetadatas, Model.Metadatas, new { @class = "form-control supported-metadatas" })
+                </div>
+
+                <div class="form-group">
+                    <Label class="mb-0">Image Url</Label>
+                    <p class="mb-0"><small class="text-gray">All Images will be converted to PNG unless they are already in base64. Some URLs may not work due to CORS.</small></p>
+                    <input id="image-url" type="text" value="" placeholder="Place the Image Url Here" class="form-control mb-1" />
+                    <button type="button" id="image-generate" class="btn btn-outline-primary">Generate Image</button>
+                    <button type="button" id="image-clear" class="btn btn-outline-danger" >Clear Image</button>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.AssetType.ImageUrl, "Image")
+                    @Html.TextBoxFor(vm => vm.AssetType.ImageUrl, new { placeholder = "Image Data URL will be generated here.", @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(vm => vm.AssetType.ImageUrl)
+                </div>
+
+                <div class="col-md-5 mb-4 mb-md-0">
+                    <img id="image-preview" src="@Model.AssetType.ImageUrl" alt="Image preview will go here if URL is correct." class="img-fluid" />
+                </div>
+
+
+                @Html.HiddenFor(vm => vm.AssetType.AssetTypeId)
+            </div>
+        }
+    </div>
+    <!-- /.card -->
+</section>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+
+            //$.validator.addMethod(
+            //    "imageValid",
+            //    function (url) {
+            //        let img = new Image();
+            //        img.src = url;
+
+            //        return img.complete;
+            //    }
+            //);
+
+            $("#AssetType_TypeLabel").rules("add", {
+                required: true,
+                maxlength: 100,
+                messages: {
+                    required: "Label is required.",
+                    maxlength: "Label is too long, maximum 100 characters."
+                }
+            });
+            $("#AssetType_TypeDescription").rules("add", {
+                required: true,
+                maxlength: 500,
+                messages: {
+                    required: "Description is required.",
+                    maxlength: "Description is too long, maximum 500 characters."
+                }
+            });
+
+
+            $("#AssetType_ImageUrl").rules("add", {
+                required: true,
+                //imageValid: true,
+                messages: {
+                    required: "Image Url is required.",
+                    //imageValid: "Please input an image url."
+                }
+            });
+
+
+            $(".supported-metadatas").select2({
+                placeholder: "Select Supported Metadatas",
+                allowClear: true
+            });
+
+            //$("#AssetType_ImageUrl").on("change", e => {
+            //    e.preventDefault();
+            //    let imageInput = document.getElementById("AssetType_ImageUrl");
+            //    let image = document.getElementById("image-preview");
+            //    if (imageInput.value && !imageInput.onerror) {
+            //        image.src = imageInput.value;
+            //    }
+            //    if (imageInput.onerror || !imageInput.value) {
+            //        image.src = "";
+            //    }
+            //});
+
+            function convertToBase64(url, callback, outputFormat) {
+                let canvas = document.createElement('canvas');
+                let context = canvas.getContext('2d');
+                let img = new Image;
+                img.crossOrigin = 'Anonymous';
+                img.onload = function () {
+                    canvas.height = img.height;
+                    canvas.width = img.width;
+                    context.drawImage(img, 0, 0);
+                    var dataUrl = canvas.toDataURL(outputFormat || 'image/png');
+                    callback.call(this, dataUrl);
+                    canvas = null;
+                };
+                img.src = url;
+            }
+
+            $("#image-generate").click(() => {
+                let base64ImagePattern = /data:image\/([a-zA-Z]*);base64,([^\"]*)/g;
+                let urlInput = document.querySelector("#image-url");
+                let url = urlInput.value;
+                let imageInput = document.querySelector("#AssetType_ImageUrl");
+                let preview = document.querySelector("#image-preview");
+
+                if (url.match(base64ImagePattern)) {
+                    imageInput.value = url;
+                    preview.src = url;
+                } else {
+                    convertToBase64(url, base64Img => {
+                        imageInput.value = base64Img;
+                        preview.src = base64Img;
+                    });
+                }
+
+            });
+
+            $("#image-clear").click(() => {
+                let imageInput = document.querySelector("#AssetType_ImageUrl");
+                let preview = document.querySelector("#image-preview");
+
+                imageInput.value = "";
+                preview.src = "";
+            });
+        });
+    </script>
+}

@@ -1,0 +1,37 @@
+﻿@model DOAM.Application.ViewModels.Search.SearchViewModel
+
+
+<!--    Search Criteria    -->
+<div id="criteria-summary">
+    <span class="text-primary">
+        Found <span class="badge badge-primary">@Model.Total</span> assets
+    </span>
+    @if (!string.IsNullOrEmpty(Model.Form.Query))
+    {
+        <span class="text-info">
+            searching for
+            <a class="badge badge-info" href="@Model.UrlForFirstPage(f=> { f.Query = null; })">"@Model.Form.Query" <i class="fa fa-times" ></i></a>
+        </span>
+    }
+    @if (!string.IsNullOrEmpty(Model.Form.AssetType))
+    {
+        <span class="text-danger">
+            having a <span class="badge badge-danger">Type</span> of
+            <a class="badge badge-danger" href="@Model.UrlForFirstPage(f => { f.AssetType = null; })">@Model.Form.AssetType <i class="fa fa-times"></i></a>
+        </span>
+    }
+    @if (Model.Form.Tags != null && Model.Form.Tags.Length > 0)
+    {
+        <span class="text-success">
+            with the <span class="badge badge-success">Tags</span>:
+            @foreach (var t in Model.Form.Tags)
+            {
+                <a class="badge badge-success" href="@Model.UrlForFirstPage(f => { f.Tags = Model.Form.Tags.Except(new[]{t}).ToArray(); })">@t <i class="fa fa-times"></i></a>
+            }
+        </span>
+    }
+</div>
+
+
+
+

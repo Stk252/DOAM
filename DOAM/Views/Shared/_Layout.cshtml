@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DOAM</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="site-wrap">
+
+        @Html.Partial("_Header", new DOAM.Domain.Models.SearchForm())
+
+        @RenderBody()
+
+        @Html.Partial("_Footer")
+    </div>
+    @Scripts.Render("~/bundles/javascript")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

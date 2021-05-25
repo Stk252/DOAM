@@ -1,0 +1,126 @@
+﻿@model DOAM.Application.ViewModels.Assets.DetailsViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="site-section bg-light">
+    <div class="container-xl">
+        <div class="row justify-content-center">
+            <div class="col-md-10" data-aos="fade">
+                <div class="p-5 bg-white">
+                    <div class="row mb-sm-4 d-flex justify-content-around">
+                        <div class="col-md-5 mb-4 mb-md-0">
+                            <img class="img img-fluid" src="@(Model.Asset.ImageUrl ?? "")" onerror="this.onerror = null;this.src='@Model.Asset.MimeType.AssetType.ImageUrl'" />
+                        </div>
+                        <div class="col-md-5 d-flex flex-column justify-content-between">
+                            <div>
+                                <h1 class="text-black">@Model.Asset.Name</h1>
+                                <div class="mb-4">Uploaded on: @Model.Asset.DateAdded.ToString("dd MMMM yyyy")</div>
+                            </div>
+                            <div>
+                                <button class="btn btn-warning">Raise Issue</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a href="#info" id="info-tab" class="nav-link active" data-toggle="tab" role="tab" aria-controls="info" aria-selected="true">Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#metadata" id="metadata-tab" class="nav-link" data-toggle="tab" role="tab" aria-controls="metadata" aria-selected="false">Metadatas</a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content p-5">
+                        <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                            <div class="mb-5">
+                                <h4 class="text-black">Description</h4>
+                                <p>@Model.Asset.Description</p>
+                            </div>
+                            <div class="mb-5">
+                                <h4 class="text-black">URL</h4>
+                                <a href="@Model.Asset.Url">@(Model.Asset.Url.Contains("base64") ? "Go to asset" : Model.Asset.Url)</a>
+                            </div>
+                            <div>
+                                <h4 class="text-black">Type</h4>
+                                <div class="asset-type-display">
+                                    <strong>Asset Type</strong>
+                                    <strong>:</strong>
+                                    <label>@Model.Asset.MimeType.AssetType.TypeLabel</label>
+                                    <strong>Mime Type</strong>
+                                    <strong>:</strong>
+                                    <label>@Model.Asset.MimeType.Name</label>
+                                    <strong>Mime Template</strong>
+                                    <strong>:</strong>
+                                    <label>@Model.Asset.MimeType.Template</label>
+                                    <strong>File Extension</strong>
+                                    <strong>:</strong>
+                                    <label>@Model.Asset.MimeType.FileExtension</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="metadata" role="tabpanel" aria-labelledby="metadata-tab">
+                            @if (Model.Asset.AssetMetadatas.Count > 0)
+                            {
+                                <table id="assets" class="table table-bordered table-hover">
+                                    <tbody>
+                                        @foreach (var metadataGroup in Model.Asset.AssetMetadatas.Select(a => a.Metadata.MetadataGroup).Distinct())
+                                        {
+                                            <tr>
+                                                <th colspan="2">@metadataGroup.Name</th>
+                                            </tr>
+                                            foreach (var metadata in Model.Asset.AssetMetadatas.OrderBy(am => am.MetadataId))
+                                            {
+                                                if (metadata.Metadata.MetadataGroup == metadataGroup)
+                                                {
+                                                    <tr>
+                                                        <td>@metadata.Metadata.Name</td>
+                                                        <td>@metadata.Value</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            @if (Model.Asset.AssetMetadatas.Count == 0)
+                            {
+                                <p>This asset currently doesn't have any meta datas.</p>
+                            }
+                        </div>
+                        @foreach (var metadata in Model.Asset.AssetMetadatas)
+                        {
+                            if (metadata.Metadata.Name == "Mediainfo")
+                            {
+                                <div class="tab-pane fade" id="mediainfo" role="tabpanel" aria-labelledby="mediainfo-tab">
+                                    @metadata.Value                                
+                                </div>
+                            }
+                        }
+                    </div>
+                    <hr />
+                    <div>
+                        <h4 class="h5 mb-4 text-black">Tags</h4>
+                        @if (Model.Asset.AssetTags.Count > 0)
+                        {
+                            foreach (var tag in Model.Asset.AssetTags)
+                            {
+                                <span class="badge badge-pill badge-primary">@tag.Tag.Label</span>
+                            }
+
+                        }
+                        @if (Model.Asset.AssetTags.Count == 0)
+                        {
+                            <p>This asset currently doesn't have any tags.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,1130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DOAMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="AssetId" />
+          </Key>
+          <Property Name="AssetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateAdded" Type="datetime" Nullable="false" />
+          <Property Name="MimeTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssetIssue">
+          <Key>
+            <PropertyRef Name="AssetIssueId" />
+          </Key>
+          <Property Name="AssetIssueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IssueDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AssetId" Type="int" Nullable="false" />
+          <Property Name="RaisedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DateRaised" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="tinyint" Nullable="false" />
+          <Property Name="Comment" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AssetMetadata">
+          <Key>
+            <PropertyRef Name="AssetMetadataId" />
+          </Key>
+          <Property Name="AssetMetadataId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" />
+          <Property Name="MetadataId" Type="int" Nullable="false" />
+          <Property Name="AssetId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssetSuggestion">
+          <Key>
+            <PropertyRef Name="AssetSuggestionId" />
+          </Key>
+          <Property Name="AssetSuggestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuggestedAssetUrl" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="DateSuggested" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="tinyint" Nullable="false" />
+          <Property Name="SuggestedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="Comment" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AssetTag">
+          <Key>
+            <PropertyRef Name="AssetTagId" />
+          </Key>
+          <Property Name="AssetTagId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagId" Type="int" Nullable="false" />
+          <Property Name="AssetId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssetType">
+          <Key>
+            <PropertyRef Name="AssetTypeId" />
+          </Key>
+          <Property Name="AssetTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeLabel" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TypeDescription" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssetTypeSupportedMetadata">
+          <Key>
+            <PropertyRef Name="AssetTypeSupportedMetadataId" />
+          </Key>
+          <Property Name="AssetTypeSupportedMetadataId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetTypeId" Type="int" Nullable="false" />
+          <Property Name="MetadataId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Metadata">
+          <Key>
+            <PropertyRef Name="MetadataId" />
+          </Key>
+          <Property Name="MetadataId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="MetadataGroupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MetadataGroup">
+          <Key>
+            <PropertyRef Name="MetadataGroupId" />
+          </Key>
+          <Property Name="MetadataGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MimeType">
+          <Key>
+            <PropertyRef Name="MimeTypeId" />
+          </Key>
+          <Property Name="MimeTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Template" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FileExtension" Type="nvarchar" MaxLength="50" />
+          <Property Name="AssetTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Label" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Asset_MimeType">
+          <End Role="MimeType" Type="Self.MimeType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MimeType">
+              <PropertyRef Name="MimeTypeId" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="MimeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetIssue_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetIssue" Type="Self.AssetIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetId" />
+            </Principal>
+            <Dependent Role="AssetIssue">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetIssue_RaisingUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AssetIssue" Type="Self.AssetIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetIssue">
+              <PropertyRef Name="RaisedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetMetadata_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetMetadata" Type="Self.AssetMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetId" />
+            </Principal>
+            <Dependent Role="AssetMetadata">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetMetadata_Metadata">
+          <End Role="Metadata" Type="Self.Metadata" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetMetadata" Type="Self.AssetMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Metadata">
+              <PropertyRef Name="MetadataId" />
+            </Principal>
+            <Dependent Role="AssetMetadata">
+              <PropertyRef Name="MetadataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetSuggestion_SuggestingUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AssetSuggestion" Type="Self.AssetSuggestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetSuggestion">
+              <PropertyRef Name="SuggestedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTag_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTag" Type="Self.AssetTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetId" />
+            </Principal>
+            <Dependent Role="AssetTag">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTag_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTag" Type="Self.AssetTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="AssetTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeSupportedMetadata_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTypeSupportedMetadata" Type="Self.AssetTypeSupportedMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="AssetTypeId" />
+            </Principal>
+            <Dependent Role="AssetTypeSupportedMetadata">
+              <PropertyRef Name="AssetTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeSupportedMetadata_Metadata">
+          <End Role="Metadata" Type="Self.Metadata" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTypeSupportedMetadata" Type="Self.AssetTypeSupportedMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Metadata">
+              <PropertyRef Name="MetadataId" />
+            </Principal>
+            <Dependent Role="AssetTypeSupportedMetadata">
+              <PropertyRef Name="MetadataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Metadata_MetadataGroup">
+          <End Role="MetadataGroup" Type="Self.MetadataGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Metadata" Type="Self.Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetadataGroup">
+              <PropertyRef Name="MetadataGroupId" />
+            </Principal>
+            <Dependent Role="Metadata">
+              <PropertyRef Name="MetadataGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MimeType_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MimeType" Type="Self.MimeType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="AssetTypeId" />
+            </Principal>
+            <Dependent Role="MimeType">
+              <PropertyRef Name="AssetTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DOAMModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asset" EntityType="Self.Asset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetIssue" EntityType="Self.AssetIssue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetMetadata" EntityType="Self.AssetMetadata" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetSuggestion" EntityType="Self.AssetSuggestion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetTag" EntityType="Self.AssetTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetType" EntityType="Self.AssetType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssetTypeSupportedMetadata" EntityType="Self.AssetTypeSupportedMetadata" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Metadata" EntityType="Self.Metadata" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MetadataGroup" EntityType="Self.MetadataGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MimeType" EntityType="Self.MimeType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Asset_MimeType" Association="Self.FK_Asset_MimeType">
+            <End Role="MimeType" EntitySet="MimeType" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetIssue_Asset" Association="Self.FK_AssetIssue_Asset">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="AssetIssue" EntitySet="AssetIssue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetIssue_RaisingUser" Association="Self.FK_AssetIssue_RaisingUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AssetIssue" EntitySet="AssetIssue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetMetadata_Asset" Association="Self.FK_AssetMetadata_Asset">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="AssetMetadata" EntitySet="AssetMetadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetMetadata_Metadata" Association="Self.FK_AssetMetadata_Metadata">
+            <End Role="Metadata" EntitySet="Metadata" />
+            <End Role="AssetMetadata" EntitySet="AssetMetadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetSuggestion_SuggestingUser" Association="Self.FK_AssetSuggestion_SuggestingUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AssetSuggestion" EntitySet="AssetSuggestion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTag_Asset" Association="Self.FK_AssetTag_Asset">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="AssetTag" EntitySet="AssetTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTag_Tag" Association="Self.FK_AssetTag_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="AssetTag" EntitySet="AssetTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeSupportedMetadata_AssetType" Association="Self.FK_AssetTypeSupportedMetadata_AssetType">
+            <End Role="AssetType" EntitySet="AssetType" />
+            <End Role="AssetTypeSupportedMetadata" EntitySet="AssetTypeSupportedMetadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeSupportedMetadata_Metadata" Association="Self.FK_AssetTypeSupportedMetadata_Metadata">
+            <End Role="Metadata" EntitySet="Metadata" />
+            <End Role="AssetTypeSupportedMetadata" EntitySet="AssetTypeSupportedMetadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Metadata_MetadataGroup" Association="Self.FK_Metadata_MetadataGroup">
+            <End Role="MetadataGroup" EntitySet="MetadataGroup" />
+            <End Role="Metadata" EntitySet="Metadata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MimeType_AssetType" Association="Self.FK_MimeType_AssetType">
+            <End Role="AssetType" EntitySet="AssetType" />
+            <End Role="MimeType" EntitySet="MimeType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DOAMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AssetIssues" Relationship="Self.FK_AssetIssue_RaisingUser" FromRole="AspNetUsers" ToRole="AssetIssue" />
+          <NavigationProperty Name="AssetSuggestions" Relationship="Self.FK_AssetSuggestion_SuggestingUser" FromRole="AspNetUsers" ToRole="AssetSuggestion" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="AssetId" />
+          </Key>
+          <Property Name="AssetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MimeTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MimeType" Relationship="Self.FK_Asset_MimeType" FromRole="Asset" ToRole="MimeType" />
+          <NavigationProperty Name="AssetIssues" Relationship="Self.FK_AssetIssue_Asset" FromRole="Asset" ToRole="AssetIssue" />
+          <NavigationProperty Name="AssetMetadatas" Relationship="Self.FK_AssetMetadata_Asset" FromRole="Asset" ToRole="AssetMetadata" />
+          <NavigationProperty Name="AssetTags" Relationship="Self.FK_AssetTag_Asset" FromRole="Asset" ToRole="AssetTag" />
+        </EntityType>
+        <EntityType Name="AssetIssue">
+          <Key>
+            <PropertyRef Name="AssetIssueId" />
+          </Key>
+          <Property Name="AssetIssueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AssetId" Type="Int32" Nullable="false" />
+          <Property Name="RaisedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DateRaised" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="DOAMModel.AssetIssueStatus" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_AssetIssue_RaisingUser" FromRole="AssetIssue" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Asset" Relationship="Self.FK_AssetIssue_Asset" FromRole="AssetIssue" ToRole="Asset" />
+        </EntityType>
+        <EntityType Name="AssetMetadata">
+          <Key>
+            <PropertyRef Name="AssetMetadataId" />
+          </Key>
+          <Property Name="AssetMetadataId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetadataId" Type="Int32" Nullable="false" />
+          <Property Name="AssetId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Asset" Relationship="Self.FK_AssetMetadata_Asset" FromRole="AssetMetadata" ToRole="Asset" />
+          <NavigationProperty Name="Metadata" Relationship="Self.FK_AssetMetadata_Metadata" FromRole="AssetMetadata" ToRole="Metadata" />
+        </EntityType>
+        <EntityType Name="AssetSuggestion">
+          <Key>
+            <PropertyRef Name="AssetSuggestionId" />
+          </Key>
+          <Property Name="AssetSuggestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuggestedAssetUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateSuggested" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="DOAMModel.AssetSuggestionStatus" Nullable="false" />
+          <Property Name="SuggestedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_AssetSuggestion_SuggestingUser" FromRole="AssetSuggestion" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AssetTag">
+          <Key>
+            <PropertyRef Name="AssetTagId" />
+          </Key>
+          <Property Name="AssetTagId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagId" Type="Int32" Nullable="false" />
+          <Property Name="AssetId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Asset" Relationship="Self.FK_AssetTag_Asset" FromRole="AssetTag" ToRole="Asset" />
+          <NavigationProperty Name="Tag" Relationship="Self.FK_AssetTag_Tag" FromRole="AssetTag" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="AssetType">
+          <Key>
+            <PropertyRef Name="AssetTypeId" />
+          </Key>
+          <Property Name="AssetTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeLabel" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TypeDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AssetTypeSupportedMetadatas" Relationship="Self.FK_AssetTypeSupportedMetadata_AssetType" FromRole="AssetType" ToRole="AssetTypeSupportedMetadata" />
+          <NavigationProperty Name="MimeTypes" Relationship="Self.FK_MimeType_AssetType" FromRole="AssetType" ToRole="MimeType" />
+        </EntityType>
+        <EntityType Name="AssetTypeSupportedMetadata">
+          <Key>
+            <PropertyRef Name="AssetTypeSupportedMetadataId" />
+          </Key>
+          <Property Name="AssetTypeSupportedMetadataId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MetadataId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssetType" Relationship="Self.FK_AssetTypeSupportedMetadata_AssetType" FromRole="AssetTypeSupportedMetadata" ToRole="AssetType" />
+          <NavigationProperty Name="Metadata" Relationship="Self.FK_AssetTypeSupportedMetadata_Metadata" FromRole="AssetTypeSupportedMetadata" ToRole="Metadata" />
+        </EntityType>
+        <EntityType Name="Metadata">
+          <Key>
+            <PropertyRef Name="MetadataId" />
+          </Key>
+          <Property Name="MetadataId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MetadataGroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssetMetadatas" Relationship="Self.FK_AssetMetadata_Metadata" FromRole="Metadata" ToRole="AssetMetadata" />
+          <NavigationProperty Name="AssetTypeSupportedMetadatas" Relationship="Self.FK_AssetTypeSupportedMetadata_Metadata" FromRole="Metadata" ToRole="AssetTypeSupportedMetadata" />
+          <NavigationProperty Name="MetadataGroup" Relationship="Self.FK_Metadata_MetadataGroup" FromRole="Metadata" ToRole="MetadataGroup" />
+        </EntityType>
+        <EntityType Name="MetadataGroup">
+          <Key>
+            <PropertyRef Name="MetadataGroupId" />
+          </Key>
+          <Property Name="MetadataGroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Metadatas" Relationship="Self.FK_Metadata_MetadataGroup" FromRole="MetadataGroup" ToRole="Metadata" />
+        </EntityType>
+        <EntityType Name="MimeType">
+          <Key>
+            <PropertyRef Name="MimeTypeId" />
+          </Key>
+          <Property Name="MimeTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Template" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FileExtension" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AssetTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_MimeType" FromRole="MimeType" ToRole="Asset" />
+          <NavigationProperty Name="AssetType" Relationship="Self.FK_MimeType_AssetType" FromRole="MimeType" ToRole="AssetType" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AssetTags" Relationship="Self.FK_AssetTag_Tag" FromRole="Tag" ToRole="AssetTag" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetIssue_RaisingUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="AssetIssue" Type="Self.AssetIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetIssue">
+              <PropertyRef Name="RaisedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetSuggestion_SuggestingUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="AssetSuggestion" Type="Self.AssetSuggestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssetSuggestion">
+              <PropertyRef Name="SuggestedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_MimeType">
+          <End Role="MimeType" Type="Self.MimeType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MimeType">
+              <PropertyRef Name="MimeTypeId" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="MimeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetIssue_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetIssue" Type="Self.AssetIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetId" />
+            </Principal>
+            <Dependent Role="AssetIssue">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetMetadata_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetMetadata" Type="Self.AssetMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetId" />
+            </Principal>
+            <Dependent Role="AssetMetadata">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTag_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTag" Type="Self.AssetTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetId" />
+            </Principal>
+            <Dependent Role="AssetTag">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetMetadata_Metadata">
+          <End Role="Metadata" Type="Self.Metadata" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetMetadata" Type="Self.AssetMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Metadata">
+              <PropertyRef Name="MetadataId" />
+            </Principal>
+            <Dependent Role="AssetMetadata">
+              <PropertyRef Name="MetadataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTag_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTag" Type="Self.AssetTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="AssetTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeSupportedMetadata_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTypeSupportedMetadata" Type="Self.AssetTypeSupportedMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="AssetTypeId" />
+            </Principal>
+            <Dependent Role="AssetTypeSupportedMetadata">
+              <PropertyRef Name="AssetTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MimeType_AssetType">
+          <End Role="AssetType" Type="Self.AssetType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MimeType" Type="Self.MimeType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssetType">
+              <PropertyRef Name="AssetTypeId" />
+            </Principal>
+            <Dependent Role="MimeType">
+              <PropertyRef Name="AssetTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTypeSupportedMetadata_Metadata">
+          <End Role="Metadata" Type="Self.Metadata" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AssetTypeSupportedMetadata" Type="Self.AssetTypeSupportedMetadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Metadata">
+              <PropertyRef Name="MetadataId" />
+            </Principal>
+            <Dependent Role="AssetTypeSupportedMetadata">
+              <PropertyRef Name="MetadataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Metadata_MetadataGroup">
+          <End Role="MetadataGroup" Type="Self.MetadataGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Metadata" Type="Self.Metadata" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetadataGroup">
+              <PropertyRef Name="MetadataGroupId" />
+            </Principal>
+            <Dependent Role="Metadata">
+              <PropertyRef Name="MetadataGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="DOAMDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Assets" EntityType="Self.Asset" />
+          <EntitySet Name="AssetIssues" EntityType="Self.AssetIssue" />
+          <EntitySet Name="AssetMetadatas" EntityType="Self.AssetMetadata" />
+          <EntitySet Name="AssetSuggestions" EntityType="Self.AssetSuggestion" />
+          <EntitySet Name="AssetTags" EntityType="Self.AssetTag" />
+          <EntitySet Name="AssetTypes" EntityType="Self.AssetType" />
+          <EntitySet Name="AssetTypeSupportedMetadatas" EntityType="Self.AssetTypeSupportedMetadata" />
+          <EntitySet Name="Metadatas" EntityType="Self.Metadata" />
+          <EntitySet Name="MetadataGroups" EntityType="Self.MetadataGroup" />
+          <EntitySet Name="MimeTypes" EntityType="Self.MimeType" />
+          <EntitySet Name="Tags" EntityType="Self.Tag" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetIssue_RaisingUser" Association="Self.FK_AssetIssue_RaisingUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AssetIssue" EntitySet="AssetIssues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetSuggestion_SuggestingUser" Association="Self.FK_AssetSuggestion_SuggestingUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AssetSuggestion" EntitySet="AssetSuggestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_MimeType" Association="Self.FK_Asset_MimeType">
+            <End Role="MimeType" EntitySet="MimeTypes" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetIssue_Asset" Association="Self.FK_AssetIssue_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="AssetIssue" EntitySet="AssetIssues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetMetadata_Asset" Association="Self.FK_AssetMetadata_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="AssetMetadata" EntitySet="AssetMetadatas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTag_Asset" Association="Self.FK_AssetTag_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="AssetTag" EntitySet="AssetTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetMetadata_Metadata" Association="Self.FK_AssetMetadata_Metadata">
+            <End Role="Metadata" EntitySet="Metadatas" />
+            <End Role="AssetMetadata" EntitySet="AssetMetadatas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTag_Tag" Association="Self.FK_AssetTag_Tag">
+            <End Role="Tag" EntitySet="Tags" />
+            <End Role="AssetTag" EntitySet="AssetTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeSupportedMetadata_AssetType" Association="Self.FK_AssetTypeSupportedMetadata_AssetType">
+            <End Role="AssetType" EntitySet="AssetTypes" />
+            <End Role="AssetTypeSupportedMetadata" EntitySet="AssetTypeSupportedMetadatas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MimeType_AssetType" Association="Self.FK_MimeType_AssetType">
+            <End Role="AssetType" EntitySet="AssetTypes" />
+            <End Role="MimeType" EntitySet="MimeTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTypeSupportedMetadata_Metadata" Association="Self.FK_AssetTypeSupportedMetadata_Metadata">
+            <End Role="Metadata" EntitySet="Metadatas" />
+            <End Role="AssetTypeSupportedMetadata" EntitySet="AssetTypeSupportedMetadatas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Metadata_MetadataGroup" Association="Self.FK_Metadata_MetadataGroup">
+            <End Role="MetadataGroup" EntitySet="MetadataGroups" />
+            <End Role="Metadata" EntitySet="Metadatas" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EnumType Name="AssetIssueStatus" UnderlyingType="Byte">
+          <Member Name="Pending" Value="1" />
+          <Member Name="Fixed" Value="2" />
+          <Member Name="Ignored" Value="3" />
+        </EnumType>
+        <EnumType Name="AssetSuggestionStatus" UnderlyingType="Byte">
+          <Member Name="Pending" Value="1" />
+          <Member Name="Added" Value="2" />
+          <Member Name="Rejected" Value="3" />
+        </EnumType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DOAMModelStoreContainer" CdmEntityContainer="DOAMDbContext">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="DOAMModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="DOAMModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="DOAMModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="DOAMModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Assets">
+            <EntityTypeMapping TypeName="DOAMModel.Asset">
+              <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="MimeTypeId" ColumnName="MimeTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetIssues">
+            <EntityTypeMapping TypeName="DOAMModel.AssetIssue">
+              <MappingFragment StoreEntitySet="AssetIssue">
+                <ScalarProperty Name="AssetIssueId" ColumnName="AssetIssueId" />
+                <ScalarProperty Name="IssueDescription" ColumnName="IssueDescription" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="RaisedBy" ColumnName="RaisedBy" />
+                <ScalarProperty Name="DateRaised" ColumnName="DateRaised" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetMetadatas">
+            <EntityTypeMapping TypeName="DOAMModel.AssetMetadata">
+              <MappingFragment StoreEntitySet="AssetMetadata">
+                <ScalarProperty Name="AssetMetadataId" ColumnName="AssetMetadataId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="MetadataId" ColumnName="MetadataId" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetSuggestions">
+            <EntityTypeMapping TypeName="DOAMModel.AssetSuggestion">
+              <MappingFragment StoreEntitySet="AssetSuggestion">
+                <ScalarProperty Name="AssetSuggestionId" ColumnName="AssetSuggestionId" />
+                <ScalarProperty Name="SuggestedAssetUrl" ColumnName="SuggestedAssetUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateSuggested" ColumnName="DateSuggested" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SuggestedBy" ColumnName="SuggestedBy" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetTags">
+            <EntityTypeMapping TypeName="DOAMModel.AssetTag">
+              <MappingFragment StoreEntitySet="AssetTag">
+                <ScalarProperty Name="AssetTagId" ColumnName="AssetTagId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetTypes">
+            <EntityTypeMapping TypeName="DOAMModel.AssetType">
+              <MappingFragment StoreEntitySet="AssetType">
+                <ScalarProperty Name="AssetTypeId" ColumnName="AssetTypeId" />
+                <ScalarProperty Name="TypeLabel" ColumnName="TypeLabel" />
+                <ScalarProperty Name="TypeDescription" ColumnName="TypeDescription" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetTypeSupportedMetadatas">
+            <EntityTypeMapping TypeName="DOAMModel.AssetTypeSupportedMetadata">
+              <MappingFragment StoreEntitySet="AssetTypeSupportedMetadata">
+                <ScalarProperty Name="AssetTypeSupportedMetadataId" ColumnName="AssetTypeSupportedMetadataId" />
+                <ScalarProperty Name="AssetTypeId" ColumnName="AssetTypeId" />
+                <ScalarProperty Name="MetadataId" ColumnName="MetadataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Metadatas">
+            <EntityTypeMapping TypeName="DOAMModel.Metadata">
+              <MappingFragment StoreEntitySet="Metadata">
+                <ScalarProperty Name="MetadataId" ColumnName="MetadataId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MetadataGroupId" ColumnName="MetadataGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MetadataGroups">
+            <EntityTypeMapping TypeName="DOAMModel.MetadataGroup">
+              <MappingFragment StoreEntitySet="MetadataGroup">
+                <ScalarProperty Name="MetadataGroupId" ColumnName="MetadataGroupId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MimeTypes">
+            <EntityTypeMapping TypeName="DOAMModel.MimeType">
+              <MappingFragment StoreEntitySet="MimeType">
+                <ScalarProperty Name="MimeTypeId" ColumnName="MimeTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Template" ColumnName="Template" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="AssetTypeId" ColumnName="AssetTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="DOAMModel.Tag">
+              <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="DOAMModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

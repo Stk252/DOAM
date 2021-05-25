@@ -1,0 +1,63 @@
+﻿@model DOAM.Application.ViewModels.Tags.FormViewModel
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<section class="content pb-1">
+    <div class="card">
+        @using (Html.BeginForm("Save", "Tags"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title align-self-center">New</h3>
+                    <button type="submit" class="btn btn-primary"><span class="nav-icon fas fa-save mr-2"></span>Save</button>
+                </div>
+            </div>
+
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                @Html.ValidationSummary(true, "Some fields are invalid.")
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Tag.Label)
+                    @Html.TextBoxFor(vm => vm.Tag.Label, new { placeholder = "Label", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.Tag.Label)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Tag.Status, "Enabled")
+                    <div class="form-check">
+                        @Html.CheckBoxFor(vm => vm.Tag.Status, new { @checked = "true", @class = "form-check-input" })
+                    </div>
+                    @Html.ValidationMessageFor(vm => vm.Tag.Status)
+                </div>
+                @Html.HiddenFor(vm => vm.Tag.TagId)
+            </div>
+            <!-- /.card-body -->
+        }
+    </div>
+    <!-- /.card -->
+</section>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $("#Tag_Label").rules("add", {
+                required: true,
+                maxlength: 50,
+                messages: {
+                    required: "Label is required.",
+                    maxlength: "Label is too long, maximum 50 characters."
+                }
+            });
+        });
+    </script>
+}

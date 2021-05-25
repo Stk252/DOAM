@@ -1,0 +1,160 @@
+﻿@model DOAM.Application.ViewModels.Assets.FormViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<section class="content pb-1">
+    <div class="card">
+        @using (Html.BeginForm("Save", "Assets"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title align-self-center">Edit</h3>
+                    <button type="submit" class="btn btn-primary"><span class="nav-icon fas fa-save mr-2"></span>Save</button>
+                </div>
+            </div>
+
+
+            <!-- /.card-header -->
+            <div class="card-body">
+                @Html.ValidationSummary(true, "Some fields are invalid.")
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Asset.Name)
+                    @Html.TextBoxFor(vm => vm.Asset.Name, new { placeholder = "Name", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.Asset.Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Asset.Url, "Url")
+                    @Html.TextBoxFor(vm => vm.Asset.Url, new { placeholder = "Url", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.Asset.Url)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Asset.ImageUrl, "Image")
+                    @Html.TextBoxFor(vm => vm.Asset.ImageUrl, new { placeholder = "Image Url", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.Asset.ImageUrl)
+                </div>
+
+
+                <div class="col-md-5 mb-md-0">
+                    <img id="image-preview" src="@Model.Asset.ImageUrl" alt="Preview will be shown here" class="img-fluid" />
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Asset.Description)
+                    @Html.TextAreaFor(vm => vm.Asset.Description, new { placeholder = "Description", @class = "form-control" })
+                    @Html.ValidationMessageFor(vm => vm.Asset.Description)
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(vm => vm.Asset.MimeTypeId, "Mime Type")
+                    @Html.DropDownListFor(vm => vm.Asset.MimeTypeId, Model.MimeTypes, "Select Mime Type", new { @class = "form-control asset-mime-type" })
+                    @Html.ValidationMessageFor(vm => vm.Asset.MimeTypeId)
+                </div>
+
+                <div class="form-group d-flex flex-column">
+                    @Html.LabelFor(vm => vm.AssetTagIds, "Tags")
+                    @Html.ListBoxFor(vm => vm.AssetTagIds, Model.Tags, new { @class = "form-control asset-tags" })
+                </div>
+
+
+
+                @Html.HiddenFor(vm => vm.Asset.AssetId)
+
+            </div>
+            <!-- /.card-body -->
+
+            <div id="asset-metadatas" class="form-group card-body">
+
+            </div>
+        }
+        </div>
+    <!-- /.card -->
+</section>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+        $(document).ready(function () {
+
+            $("#Asset_Name").rules("add", {
+                required: true,
+                maxlength: 200,
+                messages: {
+                    required: "Label is required.",
+                    maxlength: "Label is too long, maximum 200 characters."
+                }
+            });
+
+            $("#Asset_Url").rules("add", {
+                required: true,
+                messages: {
+                    required: "Url is required."
+                }
+            });
+
+            $("#Asset_Description").rules("add", {
+                required: true,
+                messages: {
+                    required: "Description is required.",
+                }
+            });
+
+            $("#Asset_MimeTypeId").rules("add", {
+                required: true,
+                messages: {
+                    required: "Mime Type is required.",
+                }
+            });
+
+
+            $(".asset-tags").select2({
+                placeholder: "Select Tags",
+                allowClear: true
+            });
+
+
+            $(".asset-mime-type").select2({
+                placeholder: "Select Mime Type",
+                allowClear: true
+            });
+
+
+            $("#Asset_ImageUrl").on("keyup blur focus", e => {
+                e.preventDefault();
+                let url = document.getElementById("Asset_ImageUrl");
+                let image = document.getElementById("image-preview");
+                if (url.value && !url.onerror) {
+                    image.src = url.value;
+                }
+                if (url.onerror || !url.value) {
+                    image.src = "";
+                }
+            });
+
+
+            (function () {
+                let mimeTypeId = document.getElementById("Asset_MimeTypeId").value;
+                $("#asset-metadatas").load(`@Html.Raw(Url.Action("AssetMetadatas", "Assets"))?assetId=@Model.Asset.AssetId&mimeTypeId=${mimeTypeId}`);
+            })();
+
+            $("#Asset_MimeTypeId").change(function () {
+                let mimeTypeId = $(this).val();
+                $("#asset-metadatas").empty();
+                $("#asset-metadatas").load(`@Html.Raw(Url.Action("AssetMetadatas", "Assets"))?assetId=@Model.Asset.AssetId&mimeTypeId=${mimeTypeId}`);
+            });
+
+        });
+</script>
+}

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNet.Identity
+@using DOAM.Domain.Constants 
+@using DOAM.Helpers
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <li class="has-children @Url.IsLinkActive("Index", "Manage")">
+            <a class="nav-username"><span class="border-left pl-xl-4"></span>@User.Identity.Name</a>
+            <ul class="dropdown">
+                @if (User.IsInRole(UserRoles.ROLE_ADMIN) || User.IsInRole(UserRoles.ROLE_TEAM))
+                {
+                    <li><a href="@Url.Action("Index", "Admin")">Admin Panel</a></li>
+                }
+                <li><a href="@Url.Action("Index", "Manage")">Manage</a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
+            </ul>
+        </li>
+       
+        <li><a class="cta" href="#" ><span class="bg-primary text-white rounded">+ Suggest an Asset</span></a></li>
+        <li>@*<a class="cta" href="@Url.Action("Suggest", "Assets")" ><span class="bg-primary text-white rounded">+ Suggest an Asset</span></a>*@</li>
+    }
+}
+else
+{
+    <li class="ml-xl-3 @Url.IsLinkActive("Login", "Account")"><a id="loginLink" href="@Url.Action("Login", "Account")"><span class="border-left pl-xl-4"></span>Log In</a></li>
+    <li class="@Url.IsLinkActive("Register", "Account")">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+}

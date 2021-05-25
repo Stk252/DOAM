@@ -1,0 +1,56 @@
+﻿@model DOAM.Application.ViewModels.Search.SearchViewModel
+
+<div class="panel panel-info aggregation-container">
+    <div class="panel-heading">
+        <h4 class="panel-title">Types</h4>
+    </div>
+    <div class="panel-body list-group">
+        @foreach (var type in Model.AssetTypes)
+        {
+            var isSelected = Model.Form.AssetType == type.Key;
+            var url = Model.UrlForFirstPage(f => { f.AssetType = isSelected ? "" : type.Key; });
+            <a href="@url" class="list-group-item @(isSelected ? "list-group-item-warning" : "") d-flex justify-content-between align-items-center">
+                @type.Key
+                @if (isSelected)
+                {
+                    <span class="fa fa-times"></span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">@type.Value</span>
+                }
+            </a>
+        }
+    </div>
+
+    <div class="panel-heading mt-4">
+        <h4 class="panel-title">
+            Tags
+        </h4>
+    </div>
+    <div class="panel-body list-group">
+        @{
+            var selectedTags = Model.Form.Tags ?? Array.Empty<string>();
+        }
+        @foreach (var tag in Model.Tags)
+        {
+
+            var isSelected = Model.Form.Tags?.Contains(tag.Key) ?? false;
+            var currentTag = new[] { tag.Key };
+            var newTagArray = selectedTags.Concat(currentTag).ToArray();
+
+            var url = Model.UrlForFirstPage(f => { f.Tags = isSelected ? selectedTags.Except(currentTag).ToArray() : newTagArray; });
+            <a href="@url" class="list-group-item @(isSelected ? "list-group-item-warning" : "") d-flex justify-content-between align-items-center">
+                @tag.Key
+                @if (isSelected)
+                {
+                    <span class="fa fa-times"></span>
+                }
+                else
+                {
+                    <span class="badge badge-success">@tag.Value</span>
+                }
+            </a>
+        }
+    </div>
+</div>

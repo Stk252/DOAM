@@ -1,0 +1,62 @@
+﻿@model DOAM.Application.ViewModels.Account.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 mb-5" data-aos="fade">
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "p-5 bg-white", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h4 class="text-black">Create a new account</h4>
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.Email, new { @class = "text-black control-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.Password, new { @class = "text-black control-label" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "text-black control-label" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="row form-group">
+                        <div class="col-12">
+                            <p class="text-black">Have an account? @Html.ActionLink("Log In", "Login")</p>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <input type="submit" value="Register" class="btn btn-primary py-2 px-4 text-white">
+                        </div>
+                    </div>
+                    
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,92 @@
+﻿@model DOAM.Application.ViewModels.Assets.IndexViewModel
+
+@{
+    ViewBag.Title = "Assets";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<!-- Main content -->
+<section class="content pb-1">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title align-self-center">Assets</h3>
+                <a href="@Url.Action("New", "Assets")" class="btn btn-success"><span class="nav-icon fas fa-plus mr-2"></span>Add Asset</a>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="assets" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th width="100"></th>
+                        <th>Name</th>
+                        <th>Date Added</th>
+                        <th>Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var asset in Model.Assets)
+                    {
+                        string modalId = "assetViewModal" + asset.AssetId;
+                        <tr>
+                            <td>
+                                <!-- Très lent -->
+                                @*<img class="img-fluid" src="@(asset.ImageUrl ?? "")" onerror="this.onerror = null;this.src='@asset.MimeType.AssetType.ImageUrl'" />*@
+                                
+                                <!-- Beaucoup plus rapide mais reste une mauvaise solution tant qu'il n'y a pas de pagination -->
+                                <img class="img-fluid" src="@asset.MimeType.AssetType.ImageUrl" />
+                            </td>
+                            <td>@asset.Name</td>
+                            <td>@asset.DateAdded.ToString("dd MMMM yyyy")</td>
+                            <td>@asset.MimeType.AssetType.TypeLabel</td>
+                            <td class="d-flex flex-column">
+                                <a class="btn btn-success m-1" href="@Url.Action("Edit", "Assets", new { id = asset.AssetId })"><span class="nav-icon fas fa-pen"></span></a>
+                                @using (Html.BeginForm("Delete", "Assets", new { id = asset.AssetId }, FormMethod.Post, new { @class = "m-1" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="button" data-name="@asset.Name" data-img="@asset.ImageUrl" data-alt-img="@asset.MimeType.AssetType.ImageUrl" class="btn btn-danger delete-asset w-100"><span class="nav-icon fas fa-trash"></span></button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->
+
+
+
+@section scripts {
+    <script>
+
+        $(document).ready(function () {
+            $("#assets").dataTable();
+
+            $("#assets tbody").on("click", ".delete-asset", function () {
+                let button = $(this);
+
+                bootbox.confirm(
+                    `Are you sure you want to delete this asset:
+                    <div class="text-primary text-bold p-3 d-flex flex-column align-items-center">
+                        ${$(this).attr("data-name")}
+                        <hr />
+                        <img src="${$(this).attr("data-img")}" onerror="this.onerror=null; this.src='${$(this).attr("data-alt-img")}'" class="img img-fluid" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+                    `,
+                    function (result) {
+                        if (result) {
+                            button.parent('form').submit();
+                        }
+                    }
+                );
+            });
+        });
+    </script>
+}
